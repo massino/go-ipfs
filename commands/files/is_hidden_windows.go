@@ -5,7 +5,8 @@ package files
 import (
 	"path/filepath"
 	"strings"
-	"syscall"
+
+	windows "gx/ipfs/QmPXvegq26x982cQjSfbTvSzZXn7GiaMwhhVPHkeTEhrPT/sys/windows"
 )
 
 func IsHidden(f File) bool {
@@ -16,14 +17,14 @@ func IsHidden(f File) bool {
 		return true
 	}
 
-	p, e := syscall.UTF16PtrFromString(f.FullPath())
+	p, e := windows.UTF16PtrFromString(f.FullPath())
 	if e != nil {
 		return false
 	}
 
-	attrs, e := syscall.GetFileAttributes(p)
+	attrs, e := windows.GetFileAttributes(p)
 	if e != nil {
 		return false
 	}
-	return attrs&syscall.FILE_ATTRIBUTE_HIDDEN != 0
+	return attrs&windows.FILE_ATTRIBUTE_HIDDEN != 0
 }

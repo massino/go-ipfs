@@ -7,7 +7,8 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
-	"syscall"
+
+	unix "gx/ipfs/QmPXvegq26x982cQjSfbTvSzZXn7GiaMwhhVPHkeTEhrPT/sys/unix"
 )
 
 // serialFile implements File, and reads from a path on the OS filesystem.
@@ -121,7 +122,7 @@ func (f *serialFile) Close() error {
 	if f.current != nil {
 		err := (*f.current).Close()
 		// ignore EINVAL error, the file might have already been closed
-		if err != nil && err != syscall.EINVAL {
+		if err != nil && err != unix.EINVAL {
 			return err
 		}
 	}

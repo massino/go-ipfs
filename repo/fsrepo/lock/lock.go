@@ -6,8 +6,8 @@ import (
 	"os"
 	"path"
 	"strings"
-	"syscall"
 
+	unix "gx/ipfs/QmPXvegq26x982cQjSfbTvSzZXn7GiaMwhhVPHkeTEhrPT/sys/unix"
 	"gx/ipfs/QmSU6eubNdhXjFBJBSksTp8kv8YRub8mGAPv8tVJHmL2EU/go-ipfs-util"
 	logging "gx/ipfs/QmSpJByNKFX1sCsHBEp3R73FL4NF6FnQTEGyNAXHm2GS52/go-log"
 	lock "gx/ipfs/QmWi28zbQG6B1xfaaWx5cYoLn3kBFU6pQ6GWQNRV5P6dNe/lock"
@@ -36,7 +36,7 @@ func Locked(confdir string) (bool, error) {
 	}
 	if lk, err := Lock(confdir); err != nil {
 		// EAGAIN == someone else has the lock
-		if err == syscall.EAGAIN {
+		if err == unix.EAGAIN {
 			log.Debugf("Someone else has the lock: %s", path.Join(confdir, LockFile))
 			return true, nil
 		}

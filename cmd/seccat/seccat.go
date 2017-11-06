@@ -16,9 +16,9 @@ import (
 	"net"
 	"os"
 	"os/signal"
-	"syscall"
 
 	context "context"
+	unix "gx/ipfs/QmPXvegq26x982cQjSfbTvSzZXn7GiaMwhhVPHkeTEhrPT/sys/unix"
 	pstore "gx/ipfs/QmPgDWmTmuzvP7QE5zwo1TmjbJme9pmZHNujB2453jkCTr/go-libp2p-peerstore"
 	logging "gx/ipfs/QmSpJByNKFX1sCsHBEp3R73FL4NF6FnQTEGyNAXHm2GS52/go-log"
 	peer "gx/ipfs/QmXYjuNuxVzXKJCfWasQk1RqkhVLDM9jtUKhqc2WPQmFSB/go-libp2p-peer"
@@ -101,7 +101,7 @@ func main() {
 	go func() {
 		// wait until we exit.
 		sigc := make(chan os.Signal, 1)
-		signal.Notify(sigc, syscall.SIGABRT)
+		signal.Notify(sigc, unix.SIGABRT)
 		<-sigc
 		panic("ABORT! ABORT! ABORT!")
 	}()
@@ -234,8 +234,7 @@ func netcat(c io.ReadWriteCloser) {
 
 	// wait until we exit.
 	sigc := make(chan os.Signal, 1)
-	signal.Notify(sigc, syscall.SIGHUP, syscall.SIGINT,
-		syscall.SIGTERM, syscall.SIGQUIT)
+	signal.Notify(sigc, unix.SIGHUP, unix.SIGINT, unix.SIGTERM, unix.SIGQUIT)
 
 	select {
 	case <-done:

@@ -15,7 +15,6 @@ import (
 	"runtime/pprof"
 	"strings"
 	"sync"
-	"syscall"
 	"time"
 
 	cmds "github.com/ipfs/go-ipfs/commands"
@@ -28,6 +27,7 @@ import (
 	config "github.com/ipfs/go-ipfs/repo/config"
 	fsrepo "github.com/ipfs/go-ipfs/repo/fsrepo"
 
+	unix "gx/ipfs/QmPXvegq26x982cQjSfbTvSzZXn7GiaMwhhVPHkeTEhrPT/sys/unix"
 	u "gx/ipfs/QmSU6eubNdhXjFBJBSksTp8kv8YRub8mGAPv8tVJHmL2EU/go-ipfs-util"
 	logging "gx/ipfs/QmSpJByNKFX1sCsHBEp3R73FL4NF6FnQTEGyNAXHm2GS52/go-log"
 	loggables "gx/ipfs/QmT4PgCNdv73hnFAqzHqwW44q7M9PWpykSswHDxndquZbc/go-libp2p-loggables"
@@ -578,7 +578,7 @@ func (i *cmdInvocation) SetupInterruptHandler(ctx context.Context) (io.Closer, c
 		}
 	}
 
-	intrh.Handle(handlerFunc, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM)
+	intrh.Handle(handlerFunc, unix.SIGHUP, unix.SIGINT, unix.SIGTERM)
 
 	return intrh, ctx
 }

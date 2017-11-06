@@ -7,7 +7,6 @@ import (
 	"os"
 	"os/signal"
 	"path/filepath"
-	"syscall"
 
 	commands "github.com/ipfs/go-ipfs/commands"
 	core "github.com/ipfs/go-ipfs/core"
@@ -18,8 +17,8 @@ import (
 
 	homedir "github.com/ipfs/go-ipfs/Godeps/_workspace/src/github.com/mitchellh/go-homedir"
 
+	unix "gx/ipfs/QmPXvegq26x982cQjSfbTvSzZXn7GiaMwhhVPHkeTEhrPT/sys/unix"
 	process "gx/ipfs/QmSF8fPo3jgVBAy8fpdjjYqgG87dkJgUprRBHRd2tmfgpP/goprocess"
-
 	fsnotify "gx/ipfs/QmczzCMvJ3HV57WBKDy8b4ucp7quT325JjDbixYRS5Pwvv/fsnotify.v1"
 )
 
@@ -100,7 +99,7 @@ func run(ipfsPath, watchPath string) error {
 	}
 
 	interrupts := make(chan os.Signal)
-	signal.Notify(interrupts, os.Interrupt, syscall.SIGTERM)
+	signal.Notify(interrupts, os.Interrupt, unix.SIGTERM)
 
 	for {
 		select {

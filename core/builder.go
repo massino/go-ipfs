@@ -6,7 +6,6 @@ import (
 	"encoding/base64"
 	"errors"
 	"os"
-	"syscall"
 	"time"
 
 	bstore "github.com/ipfs/go-ipfs/blocks/blockstore"
@@ -21,6 +20,7 @@ import (
 	uio "github.com/ipfs/go-ipfs/unixfs/io"
 
 	retry "gx/ipfs/QmPP91WFAb8LCs8EMzGvDPPvg1kacbqRkoxgTTnUsZckGe/retry-datastore"
+	unix "gx/ipfs/QmPXvegq26x982cQjSfbTvSzZXn7GiaMwhhVPHkeTEhrPT/sys/unix"
 	pstore "gx/ipfs/QmPgDWmTmuzvP7QE5zwo1TmjbJme9pmZHNujB2453jkCTr/go-libp2p-peerstore"
 	metrics "gx/ipfs/QmRg1gKTHzc3CZXSKzem8aR4E3TubFhbgXwfVuWnSK5CC5/go-metrics-interface"
 	goprocessctx "gx/ipfs/QmSF8fPo3jgVBAy8fpdjjYqgG87dkJgUprRBHRd2tmfgpP/goprocess/context"
@@ -149,7 +149,7 @@ func NewNode(ctx context.Context, cfg *BuildCfg) (*IpfsNode, error) {
 
 func isTooManyFDError(err error) bool {
 	perr, ok := err.(*os.PathError)
-	if ok && perr.Err == syscall.EMFILE {
+	if ok && perr.Err == unix.EMFILE {
 		return true
 	}
 

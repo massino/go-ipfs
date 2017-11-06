@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"syscall"
 
 	core "github.com/ipfs/go-ipfs/core"
 	mdag "github.com/ipfs/go-ipfs/merkledag"
@@ -17,6 +16,7 @@ import (
 	ftpb "github.com/ipfs/go-ipfs/unixfs/pb"
 
 	format "gx/ipfs/QmPN7cwmpcc4DWXb4KTB9dNAJgjuPY69h3npsMfhRrQL9c/go-ipld-format"
+	unix "gx/ipfs/QmPXvegq26x982cQjSfbTvSzZXn7GiaMwhhVPHkeTEhrPT/sys/unix"
 	logging "gx/ipfs/QmSpJByNKFX1sCsHBEp3R73FL4NF6FnQTEGyNAXHm2GS52/go-log"
 	lgbl "gx/ipfs/QmT4PgCNdv73hnFAqzHqwW44q7M9PWpykSswHDxndquZbc/go-libp2p-loggables"
 	proto "gx/ipfs/QmZ4Qi3GaRbjcx28Sme5eMH7RQjGkt8wHxt2a65oLaeFEV/gogo-protobuf/proto"
@@ -231,7 +231,7 @@ func (s *Node) Getxattr(ctx context.Context, req *fuse.GetxattrRequest, resp *fu
 
 func (s *Node) Readlink(ctx context.Context, req *fuse.ReadlinkRequest) (string, error) {
 	if s.cached == nil || s.cached.GetType() != ftpb.Data_Symlink {
-		return "", fuse.Errno(syscall.EINVAL)
+		return "", fuse.Errno(unix.EINVAL)
 	}
 	return string(s.cached.GetData()), nil
 }
